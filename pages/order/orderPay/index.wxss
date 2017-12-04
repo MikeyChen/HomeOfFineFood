@@ -85,5 +85,5 @@ page{background-color: #F8F8F8;}
 }
 .payment.active {
   /* background: #3399ff; */
-   background: #7be22a; 
+   background: #09bfea; 
 }
