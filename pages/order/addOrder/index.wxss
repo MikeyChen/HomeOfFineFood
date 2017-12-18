@@ -1,4 +1,4 @@
-/* pages/order/addOrder/index.wxss */
+#09bfea/* pages/order/addOrder/index.wxss */
 page{background: #efefef;}
 .addAddress{font-size:28rpx;margin:20rpx 3%;background: #fff;}
 .addAddress image{width:50rpx;height:50rpx;}

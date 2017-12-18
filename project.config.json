@@ -10,7 +10,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "1.6.0",
 	"appid": "wx16c9eff85d8a7715",
-	"projectname": "specialFineFoodV",
+	"projectname": "home",
 	"condition": {
 		"search": {
 			"current": -1,

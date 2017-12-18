@@ -97,10 +97,11 @@ Page({
   //支付
   pay:function(e){
     var that=this;
-    console.log(e);
-    var sendFee=that.data.sendFee;
-    var price = e.currentTarget.dataset.allprice+sendFee;
+    var sendFee=Number(that.data.sendFee);
+    var price   = Number(e.currentTarget.dataset.allprice)+sendFee;
+    price=price.toFixed(2);
     var orderid = e.currentTarget.dataset.orderid;
+    console.log(price);
     wx.navigateTo({
       url: '/pages/order/orderPay/index?price=' + price + '&orderid=' + orderid,
     })
@@ -126,7 +127,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
     var that=this;
     that.setData({
       totalPrice:options.totalPrice,
@@ -155,15 +155,11 @@ Page({
           method: 'get',
           url: app.globalData.webSite + '/weixin.php/wechat/getstore',
           success: function (fee) {
-           // console.log("订单列表所有店铺");
-           // console.log(fee);
             if (fee.data) {
               storeList=fee.data;
-            
               fee.data.forEach(function (val, key) {
                 fee.data[key].begin_price = fee.data[key].begin_price / 100;
                 fee.data[key].packing_fee = fee.data[key].packing_fee / 100;
-               
               })
             }
            
@@ -203,6 +199,7 @@ Page({
               data.data[key]['fee'] = Number(val1.wrap_fee)/100*val1.flag;
               data.data[key]['sum'] = data.data[key]['sum'] + val1.total;//总餐钱
               data.data[key]['allPrice'] = data.data[key]['allPrice'] + data.data[key]['sum'] + data.data[key]['fee'];//餐钱+餐盒费
+              data.data[key]['allPrice'] = data.data[key]['allPrice'].toFixed(2);
             })
             orderList.push(val)
           })
@@ -232,9 +229,10 @@ Page({
          
         }
         that.setData({
-          orderList: orderList,
-          
+          orderList: orderList, 
         })
+        console.log("所有订单");
+        console.log(that.data.orderList);
       },
    
     })
