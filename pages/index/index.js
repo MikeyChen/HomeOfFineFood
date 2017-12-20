@@ -48,8 +48,9 @@ Page({
     var name = e.currentTarget.dataset.name;
     var begin_price = e.currentTarget.dataset.begin_price;
     var packing_fee = e.currentTarget.dataset.packing_fee;
+    var sendTime = e.currentTarget.dataset.sendtime;
     wx.navigateTo({
-      url: '/pages/order/index/index?id=' + id+'&img='+img+'&name='+name+'&begin_price='+begin_price+'&packing_fee='+packing_fee,
+      url: '/pages/order/index/index?id=' + id+'&img='+img+'&name='+name+'&begin_price='+begin_price+'&packing_fee='+packing_fee+'&sendTime='+sendTime,
     })
   },
   onLoad: function () {
@@ -147,12 +148,16 @@ Page({
                     success: function (dis) {
                       var duration = (dis.result.elements[0].duration) / 60;
                       var sendTime = Math.round(duration);
-                      wx.setStorage({
-                        key: 'sendTime',
-                        data: sendTime,
+                      sendTime=sendTime+10;
+                      that.setData({
+                        sendTime:sendTime
                       })
+                      // wx.setStorage({
+                      //   key: 'sendTime',
+                      //   data: sendTime,
+                      // })
                       res.data[key]['distance'] = ((dis.result.elements[0].distance) / 1000).toFixed(2);
-                      console.log(res.data[key]['distance']);
+                      res.data[key]['sendTime'] =sendTime;
                       that.setData({
                         shopList: res.data
                       });
@@ -169,6 +174,7 @@ Page({
             },
           })
         });
+        
       }
     });
     //请求轮播图接口

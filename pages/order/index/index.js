@@ -202,10 +202,11 @@ account:function(e){
   var that=this;
   var total = that.data.totalPrice;
   var fee=that.data.fee;//总餐盒费
-  var sendFee = that.data.packing_fee
+  var sendFee = that.data.packing_fee;
+  var sendTime=that.data.sendTime;
  // var wrap_fee=that.data.fee;//总餐盒费
   wx.navigateTo({
-    url: '/pages/order/addOrder/index?total='+total+'&fee='+fee+'&sendFee='+sendFee,
+    url: '/pages/order/addOrder/index?total='+total+'&fee='+fee+'&sendFee='+sendFee+'&sendTime='+sendTime,
   })
 },
 //点击cart消失
@@ -253,7 +254,8 @@ hidCart:function(){
      logoImg: options.img,
      store_name:options.name,
      begin_price: options.begin_price,
-     packing_fee:options.packing_fee
+     packing_fee:options.packing_fee,
+     sendTime:options.sendTime,
    })
     //var typeList=[];
     wx.request({

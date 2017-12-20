@@ -14,13 +14,10 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    console.log("总价");
-    console.log(options);
     that.setData({
       sum:options.price,
       orderid:options.orderid,
-    });
-    
+    });  
   },
   clickChecked: function () {
     var that = this;
@@ -30,7 +27,6 @@ Page({
     });
   },
   switchTab:function(e){
-    //console.log("支付");
     var that = this;
     if (that.data.checked == true){
           wx.request({
@@ -70,26 +66,13 @@ Page({
                     url: app.globalData.webSite + 'weixin.php/wechat/confirmOrder',
                     success:function(){
                       wx.navigateBack();
-                      // wx.navigateTo({
-                      //   url: '/pages/order/orderList/index',
-                      // })
                     },
-                  })
-                 
-                },
-                'fail': function (res) {
-                  
-                  console.log("-----------");
-                  console.log(res);
-                },
-                
+                  }) 
+                },  
               })
             },
           })
         }
-      
-    
-   
   },
   
   /**

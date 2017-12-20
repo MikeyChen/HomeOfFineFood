@@ -53,6 +53,6 @@ App({
     userInfo: null,
     openId: '',
     loginStatus: false,
-    webSite: 'https://www.xcwmps.com/'
+    webSite: 'https://www.ynmshzj.com/'
   }
 })

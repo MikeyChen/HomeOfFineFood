@@ -23,6 +23,7 @@ Page({
     var num=e.currentTarget.dataset.active;
     var animation = 'animation' + num;
     var list=[];
+    var idList=[];
     var index=parseInt(num)-1;
     that.setData({
       active:num,
@@ -42,11 +43,8 @@ Page({
       url: app.globalData.webSite + 'weixin.php/Wechat/getOrder/weixin_user_id/1',
       success: function (res) {
         var data = res.data;
-        //console.log(data);
         // 0 待付款 1 配送中 2退款中 3 已完成
-      
-        if (data.code == 0) {
-         
+        if (data.code == 0) { 
           if(data.data.length==0){
             that.setData({
               empty: 'empty_box1'
@@ -60,8 +58,13 @@ Page({
           //orderList.push(data.data);
           data.data.forEach(function (val, key) {
             data.data[key]['sum'] = 0;
+            data.data[key]['allPrice'] = 0;
             val.dishData.forEach(function (val1, key1) {
-              data.data[key]['sum'] += val1.total;
+              idList.push(val1.store_id);
+              data.data[key]['fee'] = Number(val1.wrap_fee) / 100 * val1.flag;
+              data.data[key]['sum'] = data.data[key]['sum'] + val1.total;//总餐钱
+              data.data[key]['allPrice'] = data.data[key]['allPrice'] + data.data[key]['sum'] + data.data[key]['fee'];//餐钱+餐盒费
+              data.data[key]['allPrice'] = data.data[key]['allPrice'].toFixed(2);
             })
             orderList.push(val)
           })
@@ -82,7 +85,6 @@ Page({
           })
           
         } else {
-          console.log("武术家");
           data.data=[];
           
         }
@@ -92,7 +94,6 @@ Page({
       },
   
     })
-    //console.log(that.data.empty);
   },
   //支付
   pay:function(e){
@@ -101,7 +102,6 @@ Page({
     var price   = Number(e.currentTarget.dataset.allprice)+sendFee;
     price=price.toFixed(2);
     var orderid = e.currentTarget.dataset.orderid;
-    console.log(price);
     wx.navigateTo({
       url: '/pages/order/orderPay/index?price=' + price + '&orderid=' + orderid,
     })
@@ -206,7 +206,6 @@ Page({
           
           orderList.forEach(function (val, key) {
             if (val.status == '0') {
-              console.log(val.status);
               orderList[key].status = "待付款";
             }
             if (val.status == '1') {
@@ -231,15 +230,12 @@ Page({
         that.setData({
           orderList: orderList, 
         })
-        console.log("所有订单");
-        console.log(that.data.orderList);
       },
    
     })
     wx.getSystemInfo({
       success: function (res) {
         var height = res.windowHeight / 2;
-        console.log(height);
         that.setData({
           height: height
         });

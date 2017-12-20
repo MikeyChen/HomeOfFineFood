@@ -32,11 +32,8 @@ Page({
         content: '收货地址不能为空',
         success: function (res) {
           if (res.confirm) {
-            console.log('用户点击确定')
           } else {
-            console.log('用户点击取消')
           }
-
         }
       })
     }else{
@@ -79,8 +76,7 @@ Page({
                     'package': Package,
                     'signType': signType,
                     'paySign': paySign,
-                    'success': function (res) {
-                      
+                    'success': function (res) {  
                       wx.request({
                         header: {
                           "Content-Type": "application/x-www-form-urlencoded"
@@ -98,33 +94,17 @@ Page({
                         },
                       })  
                     },
-                    'fail': function (res) {
-                      console.log("-----------");
-                      console.log(res);
-                    },
                   })
-                
-            
               } else {
-                //console.log("用户点击取消");
-                //var wrap_fee = that.data.fee;
-                //var packing_fee = that.data.sendFee;
                 wx.navigateTo({
                   url: '/pages/order/orderList/index?orderid='+orderid,
                 })
               }
-
             }
-          })
-
-         
-         
+          }) 
         },
-
-      })
-       
-    }
-    
+      })   
+    } 
   },
   /**
    * 生命周期函数--监听页面加载
@@ -134,7 +114,7 @@ Page({
     that.setData({
       totalPrice:options.total,
       fee:options.fee,
-      sendFee:options.sendFee
+      sendFee:options.sendFee, 
     })
     var arr=[];
   //购物车食物
@@ -148,38 +128,31 @@ Page({
                 arr.push(val.child[key1]);
               }
             })
-          }
-         
-           
+          }   
         })
         that.setData({
           typeList:arr,
           price: res.data.price
         })
       },
-    })
-   
-    
+    })  
     //送餐到达时间
     var hour = myDate.getHours();
     var seconds = myDate.getMinutes();
-    wx.getStorage({
-      key: 'sendTime',
-      success: function(res) {
-        var allTime = res.data + seconds;
-        console.log(allTime);
-        if (allTime>=60){
-          hour++;
-          allTime=allTime-60;
-          if (allTime<=9){
-            allTime="0"+allTime;
-          }
-        }
-        that.setData({
-            sendTime:allTime,
-            hour:hour
-        })
-      },
+    if(hour<10){
+       hour='0'+hour;
+    }
+    var allTime = Number(options.sendTime) + Number(seconds);
+    if (allTime >= 60) {
+      hour++;
+      allTime = allTime - 60;
+      if (allTime <= 9) {
+        allTime = "0" + allTime;
+      }
+    }
+    that.setData({
+      sendTime: allTime,
+      hour: hour
     })
     
     that.setData({
@@ -187,12 +160,10 @@ Page({
     })
     //判断地址是否填写
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-  
+  onReady: function () { 
   },
 
   /**
